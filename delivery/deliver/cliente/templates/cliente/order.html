@@ -1,0 +1,160 @@
+{% extends 'cliente/base.html' %}
+
+{% block content %}
+<div class="container mb-5">
+    <div class="row justify-content-center mt-1">
+        <div class="col-md-12 col-sm-12 p-4">
+            <form method="POST">
+                {% csrf_token %}
+
+                <h1 style="font-size: 50px;">Hamburgers</h1>
+                <div class="pt-5">
+                    {% for hamburger in hamburgers %}
+                    <div class="row">
+                        <div class="col-md-2 col-sm-12">
+                            <img class="rounded" src="{{ hamburger.imagem.url }}" width="150" height="100"/>
+                        </div>
+                        <div class="col-md-8 col-sm-12">
+                            <div class="d-flex flex-row">
+                                <div class="form-group form-check">
+                                    <input type="checkbox" name="items[]" class="form-check-input" value="{{ hamburger.pk }}">
+                                    <label class="form-check-label">{{ hamburger.nome }}</label>
+                                </div>
+                                <p class="font-weight-bold pl-5">{{ " R$ " }}{{ hamburger.preco }}</p>
+                            </div>
+                            <p>{{ hamburger.descricao }}</p>
+                        </div>
+                    </div>
+                    <hr />
+                {% endfor %}
+                </div>
+                <h2 style="font-size: 50px;">Acompanhamentos</h2>
+
+                <div class="pt-5">
+                    {% for acompanhamento in acompanhamentos %}
+                    <div class="row mt-4">
+                        <div class="col-md-2 col-sm-12">
+                            <img class="rounded" src="{{ acompanhamento.imagem.url }}" width="150" height="100"/>
+                        </div>
+                        <div class="col-md-8 col-sm-12">
+                            <div class="d-flex flex-row">
+                                <div class="form-group form-check">
+                                    <label class="form-check-label">
+                                        <input type="checkbox" name="items[]" class="form-check-input" value="{{ acompanhamento.pk }}">
+                                        {{ acompanhamento.nome }} 
+                                    </label>
+                                </div>
+                                <p class="font-weight-bold pl-5">{{ " R$ " }}{{ acompanhamento.preco }}{{ "  " }}</p>
+                            </div>
+                            <p>{{ acompanhamento.descricao }}</p>
+                        </div>
+                    </div>
+                    <hr />
+                    {% endfor %}
+                </div>
+                <h3 style="font-size: 50px;">Adicionais</h3>
+
+                <div class="pt-5">
+                    {% for adicional in adicionais %}
+                    <div class="row mt-4">
+                        <div class="col-md-2 col-sm-12">
+                            <img class="rounded" src="{{ adicional.imagem.url }}" width="150" height="100"/>
+                        </div>
+                        <div class="col-md-8 col-sm-12">
+                            <div class="d-flex flex-row">
+                                <div class="form-group form-check">
+                                    <input type="checkbox" name="items[]" class="form-check-input" value="{{ adicional.pk }}">
+                                    <label class="form-check-label">{{ adicional.nome }}</label>
+                                </div>
+                                <p class="font-weight-bold pl-5">{{ " R$ " }}{{ adicional.preco }}</p>
+                            </div>
+                            <p>{{ adicional.descricao }}</p>
+                        </div>
+                    </div>
+                    <hr />
+                    {% endfor %}
+                </div>
+
+                <h4 style="font-size: 50px;">Bebidas</h4>
+
+                <div class="pt-5">
+                    {% for bebida in bebidas %}
+                    <div class="row mt-4">
+                        <div class="col-md-2 col-sm-12">
+                            <img src="{{ bebida.imagem.url }}" width="150" height="100" class="img-fluid" />
+                        </div>
+                        <div class="col-md-8 col-sm-12">
+                            <div class="d-flex flex-row">
+                                <div class="form-group form-check">
+                                    <input type="checkbox" id="bebida{{ bebida.pk }}" name="items[]" class="form-check-input" value="{{ bebida.pk }}">
+                                    <label class="form-check-label" for="bebida{{ bebida.pk }}">{{ bebida.nome }}</label>
+                                </div>
+                                <span class="font-weight-bold pl-5">{{ " R$ " }}{{ bebida.preco }}</span>
+                            </div>
+                            <p>{{ bebida.descricao }}</p>
+                        </div>
+                    </div>
+                    <hr />
+                    {% endfor %}
+                        <!-- Janelas de input de informacoes do cliente -->
+                    <div class="form-group pt-3">
+                        <label for="nome">Nome e Sobrenome</label>
+                        <input required class="form-control" type="text" placeholder="ex: Wilson" name="nome" id="nome" />
+                    </div>
+                    <div class="form-group pt-3">
+                        <label for="email">E-mail</label>
+                        <input required class="form-control" type="email" placeholder="exemplo: usuario@gmail.com" name="email" id="email" />
+                    </div>
+                    <div class="form-group pt-3">
+                        <label for="telefone">Telefone</label>
+                        <input required class="form-control" type="text" placeholder="Insira o seu número de contato" name="telefone" id="telefone" />
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 col-sm-12">
+                            <div class="form-group pt-3">
+                                <label for="rua">Rua</label>
+                                <input required class="form-control" type="text" placeholder="Insira a rua com o número" name="rua" id="rua" />
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-12">
+                            <div class="form-group pt-3">
+                                <label for="bairro">Bairro</label>
+                                <input required class="form-control" type="text" placeholder="ex: Nazaré" name="bairro" id="bairro" />
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-12">
+                            <div class="form-group pt-3">
+                                <label for="complemento">Complemento</label>
+                                <input class="form-control" type="text" name="complemento" id="complemento" />
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <br>
+                    <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#submitModal">
+                        Finalize o pedido!
+                      </button>
+                      <!-- Modal -->
+                    <div class="modal fade" id="submitModal" tabindex="-1" aria-labelledby="submitModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                            <h5 class="modal-title" id="submitModalLabel">Confirmação</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            </div>
+                            <div class="modal-body">
+                            </div>
+                            <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                            <button type="submit" class="btn btn-primary">Confirmar!</button>
+                            </div>
+                        </div>
+                        </div>
+                    </div>                                     
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock content %}
